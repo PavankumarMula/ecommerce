@@ -1,48 +1,64 @@
 import React from "react";
 import { Container, Row, Card,Button } from "react-bootstrap";
+import { useContext } from "react";
+ import { CartData } from "./CartContext";
 const productsArr = [
   {
-    id:1,
+    id:"1",
     title: "Album 1",
     price: 100,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
   },
 
   {
-    id:2,
+    id:"2",
     title: "Album 2",
     price: 50,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
   },
 
   {
-    id:3,
+    id:"3",
     title: "Album 3",
     price: 70,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
   },
 
   {
-    id:4,
+    id:"4",
     title: "Album 4",
     price: 100,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
   },
   {
-    id:5,
+    id:"5",
     title:"T shirt",
     price:35,
     imageUrl:"https://prasadyash2411.github.io/ecom-website/img/Shirt.png"
   },
   {
-    id:6,
+    id:"6",
     title:"T Cup",
     price:35,
     imageUrl:"https://prasadyash2411.github.io/ecom-website/img/Cofee.png"
   }
 ];
 
-const Grid = () => {
+const Grid = (props) => {
+  const Cartctx=useContext(CartData);
+  const clickhandler = (e) =>{
+    let requiredobj={};
+    for(let i=0;i<productsArr.length;i++){
+      if(e.target.id===productsArr[i].id){
+       requiredobj ={id:productsArr[i].id,
+          title:productsArr[i].title,
+          price:productsArr[i].price,
+          image:productsArr[i].imageUrl
+        }
+      }
+    }
+    Cartctx.addToCart(requiredobj);
+  }
   return (
     <>
     <section>
@@ -57,7 +73,7 @@ const Grid = () => {
            <Card.Text>
              ${item.price}
            </Card.Text>
-           <Button variant="primary">Add To Cart</Button>
+           <Button id={item.id} variant="primary" onClick={clickhandler}>Add To Cart</Button>
          </Card.Body>
        </Card>
       })}

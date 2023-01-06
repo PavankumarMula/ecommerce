@@ -1,6 +1,6 @@
 .carddisplay {
     position: fixed;
-    top: 10vh;
+    
     right: 1%;
     width: 60%;
     max-height: fit-content;
@@ -10,6 +10,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     z-index: 30;
     animation: slide-down 300ms ease-out forwards;
+    
   }
   .contents{
     display: flex;
@@ -18,8 +19,8 @@
   .ulclass{
    list-style: none;
    display:flex;
-   row-gap: 100px;
-   column-gap: 100px;
+   row-gap: 20px;
+   column-gap: 50px;
    justify-content: space-between;
     margin-top: 20px;
     padding-top: 20px;

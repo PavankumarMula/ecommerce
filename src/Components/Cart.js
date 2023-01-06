@@ -1,41 +1,38 @@
-import React from "react";
-import  ReactDOM  from "react-dom";
 import "./Card.css";
-const Cart = (props) => {
-  const cartElements = [
-    {
-      title: "Colors",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-      quantity: 2,
-    },
-    {
-      title: "Black and white Colors",
-      price: 50,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-      quantity: 3,
-    },
-    {
-      title: "Yellow and Black Colors",
-      price: 70,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-      quantity: 1,
-    },
-  ];
+import { CartData } from "./CartContext";
+import { useContext } from "react";
 
-  return ReactDOM.createPortal(<div className="carddisplay">
-     <div>
-        <button onClick={props.onHideCart} style={{float:'right'}}>X</button>
-      </div>
-    <center><h2>Cart</h2></center>
-      <div className="contents">
-       <ul className="ulclass">{cartElements.map((item=>{
-       return <li key={Math.random()}><h4>ITEM</h4>{item.title} <h4>Price</h4>{item.price} <h4>Quantity</h4>{item.quantity} <h4>TOTAL</h4></li>
-       }))}</ul>
-      </div>
-    </div>,document.getElementById('blur'))
-};
+const Cart = (props) => {
+  const cartCtx=useContext(CartData);
+  const Items= cartCtx.items;
+  // const totalprice=cartCtx.totalprice
+
+  const removeHandler = (event)=>{
+    let obj={}
+    for(let i=0;i<Items.length;i++){
+      if(event.target.id===Items[i].id){
+        obj={
+          id:Items[i].id,
+          title:Items[i].title,
+          price:Items[i].price,
+          image:Items[i].image
+        }
+      }
+    }
+    cartCtx.removeFromCart(obj);
+  }
+ 
+  return (<div className="carddisplay">
+    <button style={{float:'right'}} onClick={props.onHideCart} >X</button>
+      {Items.map(item=>{
+        return  <ul key={item.id} className="ulclass">
+          <li key={item.id}><h4>Title</h4>{item.title}</li>
+          <li><h4>price</h4>{item.price}</li>
+          <li><h4>image</h4><img src={item.image} alt="bgm" style={{width:'6rem',height:'4rem'}}></img> </li>
+          <li><button id={item.id} style={{backgroundColor:'black',color:'red'}} onClick={removeHandler}>Remove</button></li>
+        </ul>
+      })}
+     <center><h2>Total Price ${cartCtx.totalprice}</h2></center> 
+  </div>)
+ };
 export default Cart;
