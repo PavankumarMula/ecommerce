@@ -3,6 +3,7 @@ import Grid from "./Components/Grid";
 import About from "./Components/About";
 import Cart from "./Components/Cart";
 import NavBar from "./Components/NavBar";
+import Home from "./Components/Home";
 import { useState } from "react";
 import CartContext from "./Components/CartContext";
 import { BrowserRouter,Switch,Route } from "react-router-dom";
@@ -21,14 +22,13 @@ function App(props) {
      <BrowserRouter>
      <NavBar onClickHandler={cartShownHandler}></NavBar>
      <Switch>
-      <Route path="/home" exact component={Grid}>
-
-      </Route>
       <Route path='/store' exact component={Grid}>
 </Route>
 <Route path='/about' exact component={About}>
 </Route>
-     </Switch>
+
+    <Route path="/home" exact component={Home}></Route>
+    </Switch>
      </BrowserRouter>
   </CartContext>
   );

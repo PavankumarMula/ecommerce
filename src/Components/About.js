@@ -1,6 +1,14 @@
+import { Card } from "react-bootstrap";
 const About = (props) => {
   return (
     <div>
+         <Card style={{ width: "100%", background: "grey", height: "100px" }}>
+        <Card.Body className="d-flex justify-content-center">
+          <Card.Text>
+            <b style={{ fontSize: "50px" }}>The Genrics</b>
+          </Card.Text>
+        </Card.Body>
+      </Card>
       <h2>
         Welcome to about page</h2>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX71LFbAJeQWfrboBSMOykOuUTug3ZBe6FVg&usqp=CAU" alt="pic"></img>

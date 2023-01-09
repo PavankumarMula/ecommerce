@@ -61,6 +61,13 @@ const Grid = (props) => {
   }
   return (
     <>
+    <Card style={{ width: "100%", background: "grey", height: "100px" }}>
+        <Card.Body className="d-flex justify-content-center">
+          <Card.Text>
+            <b style={{ fontSize: "50px" }}>The Genrics</b>
+          </Card.Text>
+        </Card.Body>
+      </Card>
     <section>
     <Container className="mt-3">
       <center><h2>Items</h2></center>
