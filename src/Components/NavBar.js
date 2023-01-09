@@ -2,6 +2,7 @@
 import { Container, Navbar, Nav, Button, Card } from "react-bootstrap";
 import { CartData } from "./CartContext";
 import { useContext } from "react";
+import {Link} from 'react-router-dom';
 const NavBar = (props) => {
 
 const CartCtx=useContext(CartData);
@@ -10,23 +11,18 @@ const length=CartCtx.items.length;
     <>
       <Navbar bg="dark" variant="dark">
         <Container className="d-flex justify-content-between">
-          <Nav>
-            <Nav.Link href="#home">
-              <h2>
-                <b>Home</b>
-              </h2>
-            </Nav.Link>
-            <Nav.Link href="#features">
-              <h2>
-                <b>Store</b>
-              </h2>
-            </Nav.Link>
-            <Nav.Link href="#pricing">
-              <h2>
-                <b>About</b>
-              </h2>
-            </Nav.Link>
-          </Nav>
+        <ul className="list-unstyled" style={{color:'white'}}>
+        <Link to='/home'><li className="d-inline" style={{marginRight:"30px"}} >
+            Home
+          </li></Link>  
+         <Link to='/store'><li className="d-inline" style={{marginRight:"30px"}}>
+            Store
+          </li></Link> 
+          <Link to='/about'> <li className="d-inline" style={{marginRight:"30px"}}>
+            About
+          </li></Link>
+         
+        </ul>
           <Button
             variant="primary"
             className="mt-2"
