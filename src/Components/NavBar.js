@@ -21,6 +21,9 @@ const length=CartCtx.items.length;
           <Link to='/about'> <li className="d-inline" style={{marginRight:"30px"}}>
             About
           </li></Link>
+          <Link to='/ContactUs'> <li className="d-inline" style={{marginRight:"30px"}}>
+            Contact Us
+          </li></Link>
          
         </ul>
           <Button

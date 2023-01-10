@@ -4,6 +4,7 @@ import About from "./Components/About";
 import Cart from "./Components/Cart";
 import NavBar from "./Components/NavBar";
 import Home from "./Components/Home";
+import Contact from "./Components/Contact";
 import { useState } from "react";
 import CartContext from "./Components/CartContext";
 import { BrowserRouter,Switch,Route } from "react-router-dom";
@@ -28,6 +29,7 @@ function App(props) {
 </Route>
 
     <Route path="/home" exact component={Home}></Route>
+    <Route path="/ContactUs" exact component={Contact}></Route>
     </Switch>
      </BrowserRouter>
   </CartContext>
