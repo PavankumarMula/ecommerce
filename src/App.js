@@ -5,14 +5,18 @@ import Cart from "./Components/Cart";
 import NavBar from "./Components/NavBar";
 import Home from "./Components/Home";
 import Contact from "./Components/Contact";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CartContext from "./Components/CartContext";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import ProductDetail from "./Components/ProductDetail";
 import LogIn from "./LogIn";
+import { AuthData } from "./AuthContext";
 
 function App(props) {
   const [cartIsShown, setCartIsShown] = useState(false);
+  const authCtx=useContext(AuthData)
+  
+  
   const cartShownHandler = () => {
     setCartIsShown(!cartIsShown);
   };
@@ -30,7 +34,7 @@ function App(props) {
           <Route path="/" exact>
             <Redirect to="/home"></Redirect>
           </Route>
-          <Route path="/store" exact component={Grid}></Route>
+         {authCtx.isLoggedIn && (<Route path="/store" exact component={Grid}></Route>)}
           <Route path="/about" exact component={About}></Route>
 
           <Route path="/home" exact component={Home}></Route>
@@ -41,6 +45,9 @@ function App(props) {
             exact
             component={ProductDetail}
           ></Route>
+          <Route path='*'>
+            <Redirect to='/Login' />
+          </Route>
         </Switch>
       </BrowserRouter>
     </CartContext>

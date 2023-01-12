@@ -3,8 +3,9 @@ import { Container, Navbar,  Button} from "react-bootstrap";
 import { CartData } from "./CartContext";
 import { useContext } from "react";
 import {Link} from 'react-router-dom';
+import { AuthData } from "../AuthContext";
 const NavBar = (props) => {
-
+const authCtx=useContext(AuthData)
 const CartCtx=useContext(CartData);
 const length=CartCtx.items.length;
   return (
@@ -27,6 +28,7 @@ const length=CartCtx.items.length;
           <Link to='/Login'> <li className="d-inline" style={{marginRight:"30px"}}>
            LogIn
           </li></Link>
+         <button onClick={()=>{authCtx.logout()}}>LogOut</button>
          
         </ul>
           <Button

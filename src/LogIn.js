@@ -1,42 +1,80 @@
 import { Form, Button } from "react-bootstrap";
-import { useContext, useRef, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useContext, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { AuthData } from "./AuthContext";
 
 const LogIn = () => {
-    const authCtx=useContext(AuthData);
-   const history = useHistory()
+  const authCtx = useContext(AuthData);
+  const history = useHistory();
   const email = useRef();
   const password = useRef();
-  const formhandler = (event) => {
-        event.preventDefault();
-        const useremail=email.current.value
-        const userpassword=password.current.value
-        fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAsYyotWR2zesaRukTm4MhJNB9k7RTFZdY`,
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    const useremail = email.current.value;
+    const userpassword = password.current.value;
+    if (e.target.id === "login") {
+      fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAsYyotWR2zesaRukTm4MhJNB9k7RTFZdY`,
         {
-            method:'POST',
-            body:JSON.stringify({
-                email:useremail,
-                password:userpassword,
-                returnSecureToken:true
-            }),
-            headers:{
-                'content-Type':'application/json'
-            }
-        }).then(res=>{if(res.ok){
-               res.json().then(data=>{
-               authCtx.login(data.idToken)
-               history.replace('/store')
-               })
-        }else{
-            res.json().then(data=>{
-                alert(data.error.message)
-            })
+          method: "POST",
+          body: JSON.stringify({
+            email: useremail,
+            password: userpassword,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "content-Type": "application/json",
+          },
         }
-    })
-  }
+      ).then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            authCtx.login(data.idToken);
+            history.replace("/store");
+          });
+        } else {
+          res.json().then((data) => {
+            alert(data.error.message);
+          });
+        }
+      });
+    }
+  };
+  const signupHandler = (e) => {
+    e.preventDefault();
+    const useremail = email.current.value;
+    const userpassword = password.current.value;
+    if (e.target.id === "signup") {
+      fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAsYyotWR2zesaRukTm4MhJNB9k7RTFZdY`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: useremail,
+            password: userpassword,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "content-Type": "application/json",
+          },
+        }
+      ).then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            authCtx.login(data.idToken);
+          });
+        } else {
+          res.json().then((data) => {
+            alert(data.error.message);
+          });
+        }
+      });
+    }
+  
+  };
   return (
-    <Form onSubmit={formhandler}
+    <Form
       style={{
         padding: "30px",
         marginLeft: "350px",
@@ -54,9 +92,19 @@ const LogIn = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" placeholder="Password" ref={password} />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button id="login" variant="primary" type="submit" onClick={loginHandler}>
         Login
       </Button>
+      <Button
+        style={{ marginLeft: "20px" }}
+        id="signup"
+        variant="primary"
+        type="submit"
+        onClick={signupHandler}
+      >
+        signup
+      </Button>
+      
     </Form>
   );
 };
