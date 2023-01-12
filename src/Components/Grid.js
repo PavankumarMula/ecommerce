@@ -1,7 +1,9 @@
 import React from "react";
 import { Container, Row, Card,Button } from "react-bootstrap";
 import { useContext } from "react";
- import { CartData } from "./CartContext";
+import { CartData } from "./CartContext";
+import { Link } from "react-router-dom";
+
 const productsArr = [
   {
     id:"1",
@@ -61,19 +63,19 @@ const Grid = (props) => {
   }
   return (
     <>
-    <Card style={{ width: "100%", background: "grey", height: "100px" }}>
+    <Card style={{ width: "100%", backgroundColor: "lightsalmon", height: "100px" }}>
         <Card.Body className="d-flex justify-content-center">
-          <Card.Text>
+          <Card.Text sty>
             <b style={{ fontSize: "50px" }}>The Genrics</b>
           </Card.Text>
         </Card.Body>
       </Card>
     <section>
-    <Container className="mt-3">
+    <Container className="mt-2">
       <center><h2>Items</h2></center>
-      <Row className="mt-6" >
+      <Row className="mt-4" >
         {productsArr.map(item=>{
-        return  <Card key={item.id} style={{ width: '18rem' ,margin:'2rem',padding:'1rem'}}>
+        return  <Card key={item.id} style={{ width: '18rem' ,margin:'2rem',padding:'2rem',backgroundColor:'lightgreen'}}>
          <Card.Img variant="top" src={item.imageUrl} />
          <Card.Body>
            <Card.Title>{item.title}</Card.Title>
@@ -81,6 +83,7 @@ const Grid = (props) => {
              ${item.price}
            </Card.Text>
            <Button id={item.id} variant="primary" onClick={clickhandler}>Add To Cart</Button>
+            <Link to={`/products/${item.id}`} style={{marginLeft:'20px'}} >view</Link> 
          </Card.Body>
        </Card>
       })}

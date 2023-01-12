@@ -11,7 +11,7 @@ const About = (props) => {
       </Card>
       <h2>
         Welcome to about page</h2>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX71LFbAJeQWfrboBSMOykOuUTug3ZBe6FVg&usqp=CAU" alt="pic"></img>
+        <center><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX71LFbAJeQWfrboBSMOykOuUTug3ZBe6FVg&usqp=CAU" alt="pic"></img></center>
         <p>
           Lorem ipsum carrots enhanced rebates. Excellent sayings of a man of
           sorrows, hates no prosecutors will unfold in the enduring of which

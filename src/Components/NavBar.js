@@ -1,5 +1,5 @@
 
-import { Container, Navbar, Nav, Button, Card } from "react-bootstrap";
+import { Container, Navbar,  Button} from "react-bootstrap";
 import { CartData } from "./CartContext";
 import { useContext } from "react";
 import {Link} from 'react-router-dom';
@@ -23,6 +23,9 @@ const length=CartCtx.items.length;
           </li></Link>
           <Link to='/ContactUs'> <li className="d-inline" style={{marginRight:"30px"}}>
             Contact Us
+          </li></Link>
+          <Link to='/Login'> <li className="d-inline" style={{marginRight:"30px"}}>
+           LogIn
           </li></Link>
          
         </ul>
