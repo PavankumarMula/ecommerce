@@ -13,6 +13,7 @@ const LogIn = () => {
     e.preventDefault();
     const useremail = email.current.value;
     const userpassword = password.current.value;
+    
     if (e.target.id === "login") {
       fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAsYyotWR2zesaRukTm4MhJNB9k7RTFZdY`,
@@ -30,7 +31,7 @@ const LogIn = () => {
       ).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
-            authCtx.login(data.idToken);
+            authCtx.login(data.idToken,useremail);
             history.replace("/store");
           });
         } else {

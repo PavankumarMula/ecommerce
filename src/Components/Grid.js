@@ -48,6 +48,7 @@ const productsArr = [
 
 const Grid = (props) => {
   const Cartctx=useContext(CartData);
+  
   const clickhandler = (e) =>{
     let requiredobj={};
     for(let i=0;i<productsArr.length;i++){
@@ -60,6 +61,7 @@ const Grid = (props) => {
       }
     }
     Cartctx.addToCart(requiredobj);
+   
   }
   return (
     <>

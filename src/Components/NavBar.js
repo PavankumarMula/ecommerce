@@ -7,7 +7,8 @@ import { AuthData } from "../AuthContext";
 const NavBar = (props) => {
 const authCtx=useContext(AuthData)
 const CartCtx=useContext(CartData);
-const length=CartCtx.items.length;
+
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -37,7 +38,7 @@ const length=CartCtx.items.length;
             onClick={props.onClickHandler}
           >
             {" "}
-            <span>Cart</span> {length}
+            <span>Cart</span> {CartCtx.items.length}
           </Button>
         </Container>
       </Navbar>
