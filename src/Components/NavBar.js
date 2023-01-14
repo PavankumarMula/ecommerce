@@ -1,13 +1,14 @@
 
 import { Container, Navbar,  Button} from "react-bootstrap";
 import { CartData } from "./CartContext";
-import { useContext } from "react";
+import { useContext} from "react";
 import {Link} from 'react-router-dom';
 import { AuthData } from "../AuthContext";
 const NavBar = (props) => {
 const authCtx=useContext(AuthData)
 const CartCtx=useContext(CartData);
 
+ 
 
   return (
     <>

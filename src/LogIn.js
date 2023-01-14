@@ -1,19 +1,19 @@
 import { Form, Button } from "react-bootstrap";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthData } from "./AuthContext";
 
 const LogIn = () => {
+  const[fetchemail,setEmail]=useState('')
   const authCtx = useContext(AuthData);
   const history = useHistory();
   const email = useRef();
   const password = useRef();
-
+  
   const loginHandler = (e) => {
     e.preventDefault();
     const useremail = email.current.value;
     const userpassword = password.current.value;
-    
     if (e.target.id === "login") {
       fetch(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAsYyotWR2zesaRukTm4MhJNB9k7RTFZdY`,
@@ -31,7 +31,7 @@ const LogIn = () => {
       ).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
-            authCtx.login(data.idToken,useremail);
+            authCtx.login(data.idToken,data.email);
             history.replace("/store");
           });
         } else {
@@ -42,6 +42,7 @@ const LogIn = () => {
       });
     }
   };
+  
   const signupHandler = (e) => {
     e.preventDefault();
     const useremail = email.current.value;
@@ -63,7 +64,7 @@ const LogIn = () => {
       ).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
-            authCtx.login(data.idToken);
+           console.log(data);
           });
         } else {
           res.json().then((data) => {
