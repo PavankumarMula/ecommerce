@@ -8,7 +8,9 @@ const NavBar = (props) => {
 const authCtx=useContext(AuthData)
 const CartCtx=useContext(CartData);
 
- 
+ const cartNumber=CartCtx.items.reduce((accum,item)=>{
+   return accum+item.Quantity
+ },0)
 
   return (
     <>
@@ -39,7 +41,7 @@ const CartCtx=useContext(CartData);
             onClick={props.onClickHandler}
           >
             {" "}
-            <span>Cart</span> {CartCtx.items.length}
+            <span>Cart</span> {cartNumber}
           </Button>
         </Container>
       </Navbar>

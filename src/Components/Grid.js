@@ -8,6 +8,7 @@ const productsArr = [
   {
     id:"1",
     title: "Album 1",
+    Quantity:1,
     price: 100,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
   },
@@ -15,6 +16,7 @@ const productsArr = [
   {
     id:"2",
     title: "Album 2",
+    Quantity:1,
     price: 50,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
   },
@@ -22,6 +24,7 @@ const productsArr = [
   {
     id:"3",
     title: "Album 3",
+    Quantity:1,
     price: 70,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
   },
@@ -29,18 +32,21 @@ const productsArr = [
   {
     id:"4",
     title: "Album 4",
+    Quantity:1,
     price: 100,
     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%204.png",
   },
   {
     id:"5",
     title:"T shirt",
+    Quantity:1,
     price:35,
     imageUrl:"https://prasadyash2411.github.io/ecom-website/img/Shirt.png"
   },
   {
     id:"6",
     title:"T Cup",
+    Quantity:1,
     price:35,
     imageUrl:"https://prasadyash2411.github.io/ecom-website/img/Cofee.png"
   }
@@ -48,20 +54,8 @@ const productsArr = [
 
 const Grid = (props) => {
   const Cartctx=useContext(CartData);
-  
-  const clickhandler = (e) =>{
-    let requiredobj={};
-    for(let i=0;i<productsArr.length;i++){
-      if(e.target.id===productsArr[i].id){
-       requiredobj ={id:productsArr[i].id,
-          title:productsArr[i].title,
-          price:productsArr[i].price,
-          image:productsArr[i].imageUrl
-        }
-      }
-    }
-    Cartctx.addToCart(requiredobj);
-   
+  const clickhandler = (item) =>{ 
+   Cartctx.addToCart(item);
   }
   return (
     <>
@@ -84,7 +78,7 @@ const Grid = (props) => {
            <Card.Text>
              ${item.price}
            </Card.Text>
-           <Button id={item.id} variant="primary" onClick={clickhandler}>Add To Cart</Button>
+           <Button id={item.id} variant="primary" onClick={()=>{clickhandler(item)}}>Add To Cart</Button>
             <Link to={`/products/${item.id}`} style={{marginLeft:'20px'}} >view</Link> 
          </Card.Body>
        </Card>

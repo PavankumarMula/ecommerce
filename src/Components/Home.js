@@ -11,7 +11,7 @@ const Home = (props) => {
             <div class="text-center">
               <button
                 type="button"
-                classname="btn btn-outline-info"
+                className="btn btn-outline-info"
                 style={{ marginTop: "20px", color: "black" }}
               >
                 Get Our Latest Album
@@ -20,7 +20,7 @@ const Home = (props) => {
             <div class="text-center">
               <button
                 type="button"
-                classname="btn btn-outline-info"
+                className="btn btn-outline-info"
                 style={{ marginTop: "20px", color: "black" }}
               >
                 play

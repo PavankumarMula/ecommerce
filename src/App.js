@@ -39,7 +39,7 @@ function App(props) {
 
           <Route path="/home" exact component={Home}></Route>
           <Route path="/ContactUs" exact component={Contact}></Route>
-          {!authCtx.isLoggedIn&&<Route path="/Login" exact component={LogIn}></Route>}
+           <Route path="/Login" exact component={LogIn}></Route>
           <Route
             path='/products/:productId'
             exact

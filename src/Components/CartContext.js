@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { AuthData } from "../AuthContext";
 
 export const CartData = React.createContext({
@@ -17,111 +17,126 @@ const CartContext = (props) => {
   const authCtx = useContext(AuthData);
   let Email = authCtx.email;
   Email = Email.replace("@", "").replace(".", "");
+  console.log(Email);
 
-  useEffect(() => {
-  
-    if (authCtx.isLoggedIn) {
-      fetch(
-        `https://crudcrud.com/api/91fba752bcdb46a39575ca7546f8caac/${Email}`
-      ).then((res) =>
-        res.json().then((data) => {
-          let array = [];
-          for (let i = 0; i < data.length; i++) {
-            array.push(data[i].object[0]);
-          }
-          setCurrentCart((prevCart) => {
-            const updatedItems = prevCart.items.concat(array);
-            console.log(updatedItems);
-            let sum = 0;
-            for (let i = 0; i < updatedItems.length; i++) {
-              sum = sum + updatedItems[i].price;
-            }
-            prevCart.items = updatedItems;
-            prevCart.totalprice = sum;
-            return prevCart;
-          });
+ useEffect(()=>{
+  if(authCtx.isLoggedIn){
+
+    fetch(`https://crudcrud.com/api/39fffe0172774a59b9282d470228554a/${Email}`)
+    .then(res=>res.json().then(data=>
+      {
+        setCurrentCart(prevCart=>{
+          let sum=0,refreshedcart=[];
+         for(let i=0;i<data.length;i++){
+         refreshedcart.push(data[i].item)
+          sum=sum+ data[i].item.price * data[i].item.Quantity
+         }
+         return {
+          items:refreshedcart,
+          totalprice:sum
+         }
         })
-      );
-    }
-    
-    
-  },[]);
+      }
+      
+      
+      )).catch(err=>console.log(err))
+  }
+ 
+ },[Email,authCtx.isLoggedIn])
 
-  const addToCartHandler = (obj) => {
-    fetch(
-      `https://crudcrud.com/api/91fba752bcdb46a39575ca7546f8caac/${Email}`,
+
+
+
+
+  const addToCartHandler = async (item) => {
+    const res = await fetch(
+      `https://crudcrud.com/api/39fffe0172774a59b9282d470228554a/${Email}`,
       {
         method: "POST",
-        body: JSON.stringify({
-          object: [obj],
-        }),
+        body: JSON.stringify({item}),
         headers: {
           "Content-Type": "application/json",
         },
       }
-    ).then((res) => {
-      if (res.ok) {
-        res
-          .json()
-          .then((data) =>
-            setCurrentCart((prevCart) => {
-              const updatedItems = prevCart.items.concat(data.object);
-              let sum = 0;
-              for (let i = 0; i < updatedItems.length; i++) {
-                sum = sum + updatedItems[i].price;
-              }
-              prevCart.items = updatedItems;
-              prevCart.totalprice = sum;
-              console.log(prevCart);
-              return prevCart;
-            })
-          )
-          .catch((err) => console.log(err));
+    );
+
+    const data = await res.json();
+
+    setCurrentCart((prevcart) => {
+      const updatedprice = prevcart.totalprice + item.price * item.Quantity;
+      const existingitemindex = prevcart.items.findIndex(
+        (previtem) => previtem.id === item.id
+      );
+      const existingitem = prevcart.items[existingitemindex];
+      let updateditem;
+      let updatedItems;
+      if (existingitem) {
+        updateditem = {
+          ...existingitem,
+          Quantity: existingitem.Quantity + item.Quantity,
+        };
+        updatedItems = [...prevcart.items];
+        updatedItems[existingitemindex] = updateditem;
+      } else {
+        updateditem = { ...item };
+        updatedItems = prevcart.items.concat(item);
       }
+      return {
+        items: updatedItems,
+        totalprice: updatedprice,
+      };
     });
   };
 
-  const removeFromCartHandler = (obj) => {
-    console.log(obj);
-    fetch(
-      `https://crudcrud.com/api/91fba752bcdb46a39575ca7546f8caac/${Email}`
-    ).then((res) =>
-      res.json().then((data) => {
-        let id = "";
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].object[0].id === obj.id) {
-            id = data[i]._id;
-          }
-        }
-        console.log(id, obj.id);
-        fetch(
-          `https://crudcrud.com/api/91fba752bcdb46a39575ca7546f8caac/${Email}/${id}`,
-          {
-            method: "DELETE",
-          }
-        ).then((res) => {
-          if (res.ok) {
-            setCurrentCart((prevCart) => {
-              let updatedprice = prevCart.totalprice - obj.price;
-              let filtered = prevCart.items.filter(
-                (item) => item.id !== obj.id
-              );
-              prevCart.items = filtered;
-              prevCart.totalprice = updatedprice;
-              return prevCart;
-            });
-          }
-        });
-      })
+  const removeFromCartHandler = async (item) => {
+    let apiid = "";
+    const res = await fetch(
+      `https://crudcrud.com/api/39fffe0172774a59b9282d470228554a/${Email}`
     );
+    const data = await res.json();
+    console.log(data);
+    for (let i = 0; i < data.length; i++) {
+      if (item.id === data[i].item.id) {
+        apiid = data[i]._id;
+      }
+    }
+    await fetch(
+      `https://crudcrud.com/api/39fffe0172774a59b9282d470228554a/${Email}/${apiid}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    setCurrentCart((prevCart) => {
+      const existingitemindex = prevCart.items.findIndex(
+        (previtem) => previtem.id === item.id
+      );
+      const existingitem = prevCart.items[existingitemindex];
+      const updatedtotalprice = prevCart.totalprice - existingitem.price;
+      let updatedItems;
+      if (existingitem.Quantity === 1) {
+        updatedItems = prevCart.items.filter(
+          (prevcart) => prevcart.id !== item.id
+        );
+      } else {
+        const updateditem = {
+          ...existingitem,
+          Quantity: existingitem.Quantity - 1,
+        };
+        updatedItems = [...prevCart.items];
+        updatedItems[existingitemindex] = updateditem;
+      }
+      return {
+        items: updatedItems,
+        totalprice: updatedtotalprice,
+      };
+    });
   };
-  useEffect(()=>{
-    removeFromCartHandler()
-  },[])
 
   const CartInfo = {
     items: currentCart.items,
     totalprice: currentCart.totalprice,
+    CartItems: currentCart.items.length,
     addToCart: addToCartHandler,
     removeFromCart: removeFromCartHandler,
   };

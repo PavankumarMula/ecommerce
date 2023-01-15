@@ -1,6 +1,7 @@
 .carddisplay {
-    position: fixed;
     
+    position: fixed;
+    margin-top: 50px;
     right: 1%;
     width: 60%;
     max-height: fit-content;
